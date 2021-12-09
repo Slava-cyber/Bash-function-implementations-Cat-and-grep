@@ -3,6 +3,12 @@
 int InitStruct(Flags *flag);
 int ParserFlags(Flags *flags, char *str);
 int ProcessFile(Flags *flags, char *file, int order, int *shift);
+int CountFlags(Flags *flags);
+int FlagN(Flags *flags, int EmptyLine, int shift, int *order);
+int FlagE(Flags *flags, int *EmptyLine, int *shift, int *NumberEmptyLine);
+int FlagB(Flags *flags, int EmptyLine, int shift, int *order);
+int FlagTV(Flags *flags, char teamp);
+int PostProcessing(Flags *flags, char teamp, int *shift, int countFlags);
 
 int main(int argc, char *argv[]) {
     int order = 1, shift = 1, error = 0;
@@ -25,6 +31,69 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+int FlagN(Flags *flags, int EmptyLine, int shift, int *order) {
+    if (EmptyLine == 0 && flags->n == 1) {
+        if (shift) {
+            printf("%6d\t", *order);
+            *order += 1;
+        }
+    }
+
+    return 1;
+}
+
+int FlagE(Flags *flags, int *EmptyLine, int *shift, int *NumberEmptyLine) {
+    if (flags->e || flags->E)
+        printf("$");
+    if (*EmptyLine == 0)
+        *NumberEmptyLine++;
+    
+    printf("\n");
+    *EmptyLine = 0;
+    *shift = 1;
+    return 1;
+}
+
+int FlagB(Flags *flags, int EmptyLine, int shift, int *order) {
+    if (EmptyLine == 0 && flags->b == 1) {
+        if (shift) {
+            printf("%6d\t", *order);
+            *order += 1;
+        }
+    }
+    return 1;
+}
+
+int FlagTV(Flags *flags, char teamp) {
+    //t
+    if (teamp == '\t') {
+        if (flags->t || flags->T) { 
+            printf("^I");
+        } else {
+            printf("%c", teamp);
+        }
+    // v
+    } else if (((teamp < 32 && teamp >= 0) || teamp == 127) && flags->v) {
+        printf("^%c", teamp + 64);
+    } else {
+        printf("%c", teamp);
+    }
+    return 1;
+}
+
+int PostProcessing(Flags *flags, char teamp, int *shift, int countFlags) {
+    if (teamp != '\n') { 
+       *shift = 0;
+        if ((flags->b || flags->n) && countFlags == 1) {
+            printf("\n");
+            *shift = 1;
+        }   
+    } else {
+        *shift = 1;
+    }
+    return 1;
+}
+
 int ProcessFile(Flags *flags, char *file, int order, int *shift) {
     if (flags->b)
         flags->n = 0;
@@ -35,72 +104,26 @@ int ProcessFile(Flags *flags, char *file, int order, int *shift) {
     FILE *fp;
     fp = fopen(file, "r");
     if (fp == NULL) {
-        printf("cat: %s: No such file or directory", file);
+        printf("cat: can't open '%s': No such file or directory\n", file);
     } else {
-        int EmptyLine = 0, NumberEmptyLine = 0; 
+        int EmptyLine = 0, NumberEmptyLine = 0, countFlags = CountFlags(flags); 
         while (fscanf(fp, "%c", &teamp) != -1) {
             // s
             if (teamp == '\n' && (EmptyLine == 0 && NumberEmptyLine != 0 && flags->s == 1))
                 continue;
-
-            // n
-            if (EmptyLine == 0 && flags->n == 1) {
-                if (!*shift) {
-                    printf("\n%6d\t", order);
-                } else {
-                    printf("%6d\t", order);
-                }
-                order++;
-            }
-
+            FlagN(flags, EmptyLine, *shift, &order);
             if (teamp == '\n') {
-                // e
-                if (flags->e || flags->E)
-                    printf("$");
-
-                if (EmptyLine == 0)
-                    NumberEmptyLine++;
-            
-
-                printf("\n");
-                EmptyLine = 0;
-                *shift = 1;
+            FlagE(flags, &EmptyLine, shift, &NumberEmptyLine);             
             } else {
-                
                 NumberEmptyLine = 0;
-                // b
-                if (EmptyLine == 0 && flags->b == 1) {
-                    if (!*shift) {
-                        printf("\n%6d\t", order);
-                    } else {
-                        printf("%6d\t", order);
-                    }
-                    order++;
-                }
-
-                // t
-                if (teamp == '\t') {
-                    if (flags->t || flags->T) { 
-                        printf("^I");
-                    } else {
-                        printf("%c", teamp);
-                    }
-                // v
-                } else if (((teamp < 32 && teamp >= 0)|| teamp == 127) && flags->v) {
-                    printf("^%c", teamp + 64);
-                } else {
-                    printf("%c", teamp);
-                }
+                FlagB(flags, EmptyLine, *shift, &order);
+                FlagTV(flags, teamp);
                 EmptyLine++;
             }
         }
-        if (teamp != '\n') {
-            *shift = 0;
-        } else {
-            *shift = 1;
-        }
+        PostProcessing(flags, teamp, shift, countFlags);
+        fclose(fp);
     }
-    fclose(fp);
     return order;
 } 
 
@@ -114,6 +137,12 @@ int InitStruct(Flags *flag) {
     flag->s = 0;
     flag->b = 0;
     return 1;
+}
+
+int CountFlags(Flags *flags) {
+    int count = 0;
+    count = flags->e + flags->E + flags->v + flags->n + flags->t + flags->T + flags->s + flags->b;
+    return count;
 }
 
 int IndicateFlag(Flags *flags, char c) {
