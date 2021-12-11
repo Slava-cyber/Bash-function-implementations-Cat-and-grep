@@ -3,11 +3,11 @@
 
 START_TEST(s21_cat_test_) {
     FILE *cat_test_file = fopen("cat/cat_test_file.txt", "r");
-    FILE *cat_origin_file = fopen("cat/cat_origin_file.txt", "r");
+    FILE *cat_origin_file = fopen("cat/cat_origin.txt", "r");
     if (cat_test_file) {
         if (cat_origin_file) {
             char ct = '\0', co = '\0';
-            while (co != EOF) {
+            while (ct != EOF) {
                 ct = getc(cat_test_file);
                 co = getc(cat_origin_file);
                 ck_assert_int_eq(ct, co);
@@ -21,12 +21,12 @@ END_TEST
 
 START_TEST(s21_grep_test_) {
     FILE *grep_test_file = fopen("grep/grep_test_file.txt", "r");
-    FILE *grep_origin_file = fopen("grep/grep_origin_file.txt", "r");
+    FILE *grep_origin_file = fopen("grep/grep_origin.txt", "r");
     if (grep_test_file) {
         if (grep_origin_file) {
             char ct = '\0', co = '\0';
-            while (co != EOF) {
-                ct =getc(grep_test_file);
+            while (ct != EOF) {
+                ct = getc(grep_test_file);
                 co = getc(grep_origin_file);
                 ck_assert_int_eq(ct, co);
             }

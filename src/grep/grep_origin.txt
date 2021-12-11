@@ -11,14 +11,10 @@ school SccS
 1
 2
 4
-grep/test_g.txt
-grep/test_g.txt
-grep/test_g.txt
-grep/test_g.txt
+grep/test.txt
+grep/test.txt
 1:ky ladno
 2:dasha hello
 4:sad man Men
 6:vlad hello allo
 vlad hello allo
-vlad hello allo
-N

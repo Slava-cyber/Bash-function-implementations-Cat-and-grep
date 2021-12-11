@@ -1,3 +1,5 @@
+all: s21_cat s21_grep
+
 s21_cat: cat/s21_cat.o
 	gcc cat/s21_cat.o -o cat/s21_cat
 
@@ -39,10 +41,10 @@ test_grep:
 	grep/s21_grep 13 -c grep/test.txt >> grep/grep_test_file.txt
 	grep/s21_grep -c -e v -e 13 grep/test.txt >> grep/grep_test_file.txt
 	grep/s21_grep -c -e v -e 13 -v grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep s -l grep/test_g.txt grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep s -l -v grep/test.txt grep/test_g.txt >> grep/grep_test_file.txt
+	grep/s21_grep s -l grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep s -l -v grep/test.txt >> grep/grep_test_file.txt
 	grep/s21_grep a -n grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep v -h grep/test.txt grep/test_g.txt >> grep/grep_test_file.txt
+	grep/s21_grep v -h grep/test.txt >> grep/grep_test_file.txt
 
 clean_test:
 	rm -rf cat/*file.txt
@@ -54,3 +56,19 @@ clean:
 	rm -rf cat/s21_cat grep/s21_grep
 	rm -rf a.out
 	rm -rf *.o
+	
+	
+	grep/s21_grep 13 grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep -e he -e k grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep n -i grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep a -v grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep -e a -e e -v grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep 13 -c grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep -c -e v -e 13 grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep -c -e v -e 13 -v grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep s -l grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep s -l -v grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep a -n grep/test.txt >> grep/grep_test_file.txt
+	grep/s21_grep v -h grep/test.txt >> grep/grep_test_file.txt
+
+rebuild: clean all
