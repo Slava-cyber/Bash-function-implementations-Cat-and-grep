@@ -57,18 +57,4 @@ clean:
 	rm -rf a.out
 	rm -rf *.o
 	
-	
-	grep/s21_grep 13 grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep -e he -e k grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep n -i grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep a -v grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep -e a -e e -v grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep 13 -c grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep -c -e v -e 13 grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep -c -e v -e 13 -v grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep s -l grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep s -l -v grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep a -n grep/test.txt >> grep/grep_test_file.txt
-	grep/s21_grep v -h grep/test.txt >> grep/grep_test_file.txt
-
 rebuild: clean all
