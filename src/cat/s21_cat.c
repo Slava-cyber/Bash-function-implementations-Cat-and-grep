@@ -111,7 +111,6 @@ int ProcessFile(Flags *flags, char *file, int order, int *shift) {
     if (flags->t || flags->e)
         flags->v = 1;
     char teamp;
-    int k = 0;
     FILE *fp;
     fp = fopen(file, "r");
     if (fp == NULL) {
