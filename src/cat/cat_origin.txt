@@ -1,0 +1,59 @@
+     1	vlad	dr
+     2	12	sew	21		w
+     3	Ssd
+     4	Test
+     5	Zzzz
+     6	sa
+     7	New
+     8	321
+     9	Fleas
+    10	Sew
+    11	Sdcewfwed ewrewrewr w	werwerews	awwqes
+    12	S
+     1	vlad	dr
+     2	12	sew	21		w
+     3	Ssd
+     4	Test
+     5	Zzzz
+     6	sa
+     7	New
+     8	321
+     9	Fleas
+    10	Sew
+    11	Sdcewfwed ewrewrewr w	werwerews	awwqes
+    12	S
+     1	vlad	dr
+     2	12	sew	21		w
+     3	Ssd
+     4	Test
+     5	Zzzz
+     6	sa
+     7	New
+     8	321
+     9	Fleas
+    10	Sew
+    11	Sdcewfwed ewrewrewr w	werwerews	awwqes
+    12	S
+vlad^Idr
+12^Isew^I21^I^Iw
+Ssd
+Test
+Zzzz
+sa
+New
+321
+Fleas
+Sew
+Sdcewfwed ewrewrewr w^Iwerwerews^Iawwqes
+Svlad	dr$
+12	sew	21		w$
+Ssd$
+Test$
+Zzzz$
+sa$
+New$
+321$
+Fleas$
+Sew$
+Sdcewfwed ewrewrewr w	werwerews	awwqes$
+S$

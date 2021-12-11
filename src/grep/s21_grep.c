@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
         CountFile = Parser(&flags, argc, argv, search_str, &search_number, &count_flags, &error);
     } else {
         error = 1;
-    } 
+    }
     if (!error) {
         for (int i = 1; i < argc; i++) {
             if (argv[i][0] != '-')
@@ -61,7 +61,6 @@ int main(int argc, char *argv[]) {
 int Parser(Flags_grep *flags, int argc, char **argv, char **search_str, int *search_number,
             int *count_flags, int *error) {
     int CountFile = 0, i = 1;
-    int buf = *search_number; 
     while (i < argc) {
         if (argv[i][0] == '-') {
             if (ParserFlags_grep(flags, argc, argv, argv[i], &i, search_str[*search_number],
